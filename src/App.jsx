@@ -1,6 +1,6 @@
+import React, { Suspense } from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import {
-  HomeLayout,
   Landing,
   Error,
   Products,
@@ -12,25 +12,40 @@ import {
   Checkout,
   Orders,
 } from './pages'
+import { ErrorElement, Loading } from './components'
+import { loader as loaderLanding } from './pages/Landing'
+import { loader as loaderSinglePage } from './pages/SingleProduct'
+import { loader as loaderProducts } from './pages/Products'
+const HomeLayout = React.lazy(() => import('./pages/HomeLayout'))
 
 const router = createBrowserRouter(
   [
     {
       path: '/',
-      element: <HomeLayout />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <HomeLayout />
+        </Suspense>
+      ),
       errorElement: <Error />,
       children: [
         {
           index: true,
           element: <Landing />,
+          errorElement: <ErrorElement />,
+          loader: loaderLanding,
         },
         {
           path: 'products',
           element: <Products />,
+          loader: loaderProducts,
+          errorElement: <ErrorElement />,
         },
         {
-          path: 'product/:id',
+          path: 'products/:id',
           element: <SingleProduct />,
+          errorElement: <ErrorElement />,
+          loader: loaderSinglePage,
         },
         {
           path: 'cart',
@@ -65,6 +80,8 @@ const router = createBrowserRouter(
 )
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <RouterProvider router={router}/>
+  )
 }
 export default App
