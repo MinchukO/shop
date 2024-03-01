@@ -3,6 +3,7 @@ import { Header, Navbar, Loading } from '../components'
 
 function HomeLayout() {
   const navigation = useNavigation()
+  console.log(navigation)
   const isPending = navigation.state === 'loading'
   return (
     <>

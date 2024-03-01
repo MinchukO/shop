@@ -11,7 +11,6 @@ function ProductsGrid() {
         const { title, price, image } = product.attributes
         const dollarsAmount = formatPrice(price)
         return (
-          <>
             <Link
               key={product.id}
               to={`/products/${product.id}`}
@@ -28,7 +27,6 @@ function ProductsGrid() {
                 <span className="text-secondary">{dollarsAmount}</span>
               </div>
             </Link>
-          </>
         )
       })}
     </div>
