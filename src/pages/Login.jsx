@@ -16,9 +16,10 @@ export const action =
     const formData = await request.formData()
     const data = Object.fromEntries(formData) //{username: 'ol', email: 'ol@gmail.com', password: '111'}
     try {
-      await customFetch.post('/auth/local/register', data)
+      const response = await customFetch.post('/auth/local', data)
+      store.dispatch(loginUser(response.data))
       toast.success('account created successfully')
-      return redirect('/login')
+      return redirect('/')
     } catch (error) {
       console.log(error)
       const errorMessage =
