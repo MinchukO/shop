@@ -1,6 +1,23 @@
 import { FormInput, SubmitBtn } from '../components'
 import { Form, Link, redirect } from 'react-router-dom'
+import { customFetch } from '../utils'
+import { toast } from 'react-toastify'
 
+export const action = async({request}) => {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData) //{username: 'ol', email: 'ol@gmail.com', password: '111'}
+  try {
+    await customFetch.post('/auth/local/register', data)
+    toast.success('account created successfully')
+    return redirect('/login')
+  } catch (error) {
+    console.log(error)
+    const errorMessage =
+      error?.response?.data?.error?.message || 'please double check your credentials'
+    toast.error(errorMessage)
+    return null
+  }
+}
 function Register() {
   return (
     <section className="h-screen grid place-items-center">

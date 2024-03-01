@@ -16,7 +16,14 @@ import { ErrorElement, Loading } from './components'
 import { loader as loaderLanding } from './pages/Landing'
 import { loader as loaderSinglePage } from './pages/SingleProduct'
 import { loader as loaderProducts } from './pages/Products'
+
+import { action as actionRegister } from './pages/Register';
+import { action as actionLogin } from './pages/Login'
+
+import {store} from './store'
+
 const HomeLayout = React.lazy(() => import('./pages/HomeLayout'))
+
 
 const router = createBrowserRouter(
   [
@@ -68,11 +75,13 @@ const router = createBrowserRouter(
     {
       path: '/login',
       element: <Login />,
+      action: actionLogin(store),
       errorElement: <Error />,
     },
     {
       path: '/register',
       element: <Register />,
+      action: actionRegister,
       errorElement: <Error />,
     },
   ],
